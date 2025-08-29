@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Accueil Employé - Predict'If</title>
+    <style>
+         body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+
+             header {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.left  {
+    flex: 1;
+    display: flex;
+    align-items: center;
+ padding-left: 10px;
+  
+}
+.center{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: left;
+   
+}
+.right{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: right;
+ padding-right: 10px;
+    
+}
+
+.center h1 {
+ 
+    margin: 0;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+        #content {
+            padding: 20px;
+        }
+
+        .section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .section1{
+             border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        .profil-input {
+            margin-bottom: 10px;
+        }
+
+        .profil-input label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .profil-input input {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+      
+
+        .btn-stats {
+            
+           
+            text-align: center;
+            padding: 10px;
+           
+            border-top: 1px solid #ccc;
+            font-weight: bold;
+            text-decoration: underline;
+            color: black;
+        }
+
+        .clipboard-icon {
+            
+            width: 60px;
+            height: 60px;
+            background-color: #bbb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #999;
+            text-decoration: none;
+        }
+
+        .clipboard-icon::before {
+            content: "\2709";
+            font-size: 32px;
+            color: white;
+            
+        }
+          .genre {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+                background-color: white;
+        }
+ 
+.genre.selected {
+    background-color: #555; /* gris foncé */
+    color: white;
+}
+
+
+    </style>
+</head>
+<body>
+<header>
+  <div class="left">
+    <img id="home-btn" class="nav-icon" onclick="location.href='accueilEmploye.html'" src="https://cdn-icons-png.flaticon.com/512/7606/7606153.png" alt="Accueil" title="Accueil">
+  </div>
+
+  <div class="center">
+     <h1>Accueil</h1>
+  </div>
+
+ 
+</header>
+
+
+<div id="content">
+    <div class="section1" id="consultation-section">
+    <div class="titrage">
+        <h2>Consultation</h2>
+        <p>
+            <span class="client-name">Sherlock Holmes</span> <br>
+            veut voir <input type="text" class="medium-name" value="Mme Irma" readonly>
+        </p>
+    </div>
+    <a class="clipboard-icon" href="consultationEmploye.html"></a>
+</div>
+
+    <div class="section">
+        <h2>Profil</h2>
+        <div class="profil-input">
+            <label>Nom:</label><input type="text" value="Chabrier" id="nom" readonly >
+        </div>
+        <div class="profil-input">
+            <label>Prénom:</label><input type="text" value="Pierre" id="prenom" readonly>
+        </div>
+        <div class="profil-input">
+            <label>Mail:</label><input type="text" value="p.chabrier@predictif.fr" id="mail" readonly>
+        </div>
+        <div class="profil-input">
+            <label>Tel:</label><input type="text" value="+33 3 45 67 89 10" id="tlf" readonly>
+        </div>
+        <div class="profil-input">
+    <label>Genre:</label>
+    <span class="genre" data-value="F">F</span>
+    <span class="genre" data-value="H">H</span>
+</div>
+
+    </div>
+
+    <a href="statistiques.html" class="btn-stats">voir statistiques</a>
+</div>
+    <script> window.addEventListener('DOMContentLoaded', () => {
+        fetch('ActionServlet?todo=infosEmploye')
+            .then(res => res.json())
+            .then(json => {
+                if (json.success && json.employe) {
+                    const employe = json.employe;
+                    
+                    document.getElementById('nom').value = employe.nom;
+                    document.getElementById('prenom').value = employe.prenom;
+                    document.getElementById('mail').value = employe.mail;
+                     document.getElementById('tlf').value = employe.tlf;
+                     
+                     const genre = employe.genre; // "F" ou "H"
+
+document.querySelectorAll('.genre').forEach(span => {
+    if (span.dataset.value === genre) {
+        span.classList.add('selected');
+    } else {
+        span.classList.remove('selected');
+    }
+});
+
+
+                  
+                } else {
+                    alert("Veuillez vous connecter pour voir votre profil.");
+                    window.location.href = "connexion.html";
+                }
+            })
+            .catch(err => {
+                console.error("Erreur lors du chargement du profil :", err);
+                window.location.href = "connexion.html";
+            });
+    });
+    fetch("ActionServlet?todo=consultationEmploye")
+    .then(res => res.json())
+    .then(json => {
+        if (json.success && json.consultation) {
+            const consultation = json.consultation;
+            document.querySelector('.medium-name').value = consultation.medium;
+            document.querySelector('.client-name').textContent = consultation.client.nom;
+        } else {
+            document.querySelector('#consultation-section').style.display = "none";
+        }
+    })
+    .catch(err => {
+        console.error("Erreur lors du chargement de la consultation :", err);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Consultation</title>
+   
+    <style>
+        
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        font-family: Arial, sans-serif;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+    }
+              body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+
+             header {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.left  {
+    flex: 1;
+    display: flex;
+    align-items: center;
+ padding-left: 10px;
+  
+}
+.center{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: left;
+   
+}
+.right{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: right;
+ padding-right: 10px;
+    
+}
+
+.center h1 {
+ 
+    margin: 0;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+    h2 {
+        text-align: center;
+        font-size: 28px;
+    }
+
+    .titrage {
+        
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .section1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+    
+        .btn-stats {
+            
+           
+            text-align: center;
+            padding: 10px;
+           
+       
+            font-weight: bold;
+            text-decoration: underline;
+            color: black;
+        }
+
+  
+
+    .client-name {
+        font-weight: bold;
+    }
+
+    .medium-name {
+        font-weight: bold;
+        border: none;
+        background: none;
+        font-size: 16px;
+    }
+
+    .profil-astral {
+        border: 1px solid #ccc;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        line-height: 1.6;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .commentaire, .predictions {
+        border: 1px solid #ccc;
+        padding: 15px;
+        width: 48%;
+        background-color: #fefefe;
+        border-radius: 5px;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100px;
+        resize: none;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    input[type="number"] {
+        width: 50px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        background-color: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+        border-radius: 4px;
+    }
+
+    .btn:hover {
+        background-color: #555;
+    }
+
+    #resultats {
+        margin-top: 15px;
+    }
+
+    #resultats p {
+        margin: 5px 0;
+    }
+
+    .prediction-section label {
+        display: inline-block;
+        width: 60px;
+    }
+
+    .prediction-inputs {
+        margin-bottom: 10px;
+    }
+
+    .profil-astral strong {
+        display: block;
+        margin-bottom: 8px;
+    }
+</style>
+
+</head>
+<body>
+    <header>
+  <div class="left">
+    <img id="home-btn" class="nav-icon" onclick="location.href='accueilEmploye.html'"  src="https://cdn-icons-png.flaticon.com/512/7606/7606153.png" alt="Accueil" title="Accueil">
+  </div>
+
+  <div class="center">
+<h1>Consultation</h1>
+  </div>
+
+ 
+</header>
+
+<div class="container">
+    <div class="section1">
+        <div class="titrage">
+            <p>Client : <span id="client-nom">Nom du client</span> <br>
+                veut voir <input type="text" id="medium-nom" readonly value="Mme Irma"></p>
+        </div>
+       <a href="historiqueEmploye.html" class="btn-stats">voir historique consultations</a>
+    </div>
+
+    <div class="profil-astral">
+        <h3>Profil Astral :</h3>
+        <p>Signe Zodiac : <span id="zodiaque"></span></p>
+        <p>Signe Chinois : <span id="chinois"></span></p>
+        <p>Couleur : <span id="couleur"></span></p>
+        <p>Animal Totem : <span id="animal"></span></p>
+    </div>
+
+    <div class="actions">
+        <div class="commentaire">
+            <label for="commentaire">Commentaire :</label><br>
+            <textarea id="commentaire"></textarea><br>
+           <button id="btn-lancer" class="btn-principale">Lancer la conversation</button>
+<button id="btn-terminer" class="btn-principale" style="opacity: 0.5; pointer-events: none;">Terminer la conversation</button>
+
+        </div>
+
+        <div class="predictions">
+            <label>Amour : <input type="number" id="niveau-amour" min="1" max="5" value="3"></label><br>
+            <label>Santé : <input type="number" id="niveau-sante" min="1" max="5" value="3"></label><br>
+            <label>Travail : <input type="number" id="niveau-travail" min="1" max="5" value="3"></label><br>
+            <button class="btn" id="btn-prediction">Lancer la prédiction</button>
+
+            <div id="resultats">
+                <h4>Prédictions :</h4>
+                <p><strong>Amour :</strong> <span id="pred-amour">...</span></p>
+                <p><strong>Santé :</strong> <span id="pred-sante">...</span></p>
+                <p><strong>Travail :</strong> <span id="pred-travail">...</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let idConsultationActuelle = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('ActionServlet?todo=consultationEmploye')
+        .then(res => res.json())
+        .then(json => {
+            if (json.success) {
+              
+                const consultation = json.consultation;
+                console.log(consultation);
+                document.getElementById('client-nom').textContent = consultation.client.nom;
+                document.getElementById('medium-nom').value = consultation.medium;
+                console.log(consultation);
+                document.getElementById('zodiaque').textContent = consultation.client.zodiac;
+                document.getElementById('chinois').textContent = consultation.client.chinois;
+                document.getElementById('couleur').textContent = consultation.client.couleur;
+                document.getElementById('animal').textContent = consultation.client.animal;
+                idConsultationActuelle = consultation.idConsultation; 
+
+            } else {
+                alert("Aucune consultation en cours.");
+                window.location.href = "accueilEmploye.html";
+            }
+        })
+        .catch(err => {
+            console.error("Erreur lors du chargement de la consultation :", err);
+        });
+
+  
+
+  
+  
+    document.getElementById('btn-lancer').addEventListener('click', () => {
+   
+            if (!idConsultationActuelle) {
+        alert("Aucune consultation trouvée !");
+        return;
+    }
+    console.log(idConsultationActuelle)
+   fetch(`ActionServlet?todo=lancerConsultation&consultationId=${idConsultationActuelle}`, {
+    method: "GET"
+})
+.then(res => res.json())
+.then(json => {
+    if (json.success) {
+        
+const btnLancer = document.getElementById("btn-lancer");
+            btnLancer.disabled = true;
+            btnLancer.style.opacity = "0.5";
+            btnLancer.style.pointerEvents = "none";
+
+            // Activer le bouton Terminer
+            const btnTerminer = document.getElementById("btn-terminer");
+            btnTerminer.style.opacity = "1";
+            btnTerminer.style.pointerEvents = "auto";
+            alert("Consultation commencée !");
+    } else {
+        alert("Erreur lors du lancement de la consultation.");
+    }
+});
+
+});
+document.getElementById("btn-terminer").addEventListener("click", () => {
+    const commentaire = document.getElementById("commentaire").value || ""; // récupérer commentaire
+
+    fetch(`ActionServlet?todo=terminerConsultation&consultationId=${idConsultationActuelle}&commentaire=${encodeURIComponent(commentaire)}`, {
+        method: "GET"
+    })
+    .then(res => res.json())
+    .then(json => {
+        if (json.success) {
+            alert("Consultation terminée !");
+
+            // Désactiver bouton Terminer et le griser
+            const btnTerminer = document.getElementById("btn-terminer");
+            btnTerminer.disabled = true;
+            btnTerminer.style.opacity = "0.5";
+            btnTerminer.style.pointerEvents = "none";
+            location.reload();
+            // Optionnel : réactiver ou afficher le bouton Lancer
+            // const btnLancer = document.getElementById("btn-lancer");
+            // btnLancer.disabled = false;
+            // btnLancer.style.opacity = "1";
+            // btnLancer.style.pointerEvents = "auto";
+
+        } else {
+            alert("Erreur lors de la terminaison de la consultation.");
+        }
+    })
+    .catch(err => {
+        alert("Erreur réseau ou serveur.");
+        console.error(err);
+    });
+});
+document.getElementById('btn-prediction').addEventListener('click', () => {
+    const amour = document.getElementById('niveau-amour').value;
+    const sante = document.getElementById('niveau-sante').value;
+    const travail = document.getElementById('niveau-travail').value;
+
+    fetch(`ActionServlet?todo=genererPredictions&consultationId=${idConsultationActuelle}&amour=${amour}&sante=${sante}&travail=${travail}`)
+        .then(res => res.json())
+        .then(json => {
+            if (json.success) {
+                document.getElementById('pred-amour').textContent = json.predictions.amour;
+                document.getElementById('pred-sante').textContent = json.predictions.sante;
+                document.getElementById('pred-travail').textContent = json.predictions.travail;
+            } else {
+                alert("Erreur lors de la génération des prédictions.");
+            }
+        })
+        .catch(err => {
+            console.error("Erreur réseau :", err);
+        });
+});
+
+
+});
+
+
+
+</script>
+
+</body>
+</html>

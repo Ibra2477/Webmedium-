@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carte des clients et statistiques</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    #totalConsultations {
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Clients sur la carte de France</h2>
+
+<div id="totalConsultations">Chargement des consultations...</div>
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const map = L.map('map').setView([46.6, 2.4], 6);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  fetch('Controleur?action=listerClients')
+    .then(response => response.json())
+    .then(clients => {
+      let totalConsultations = 0;
+      
+      clients.forEach(client => {
+        if(client.latitude && client.longitude) {
+          L.marker([client.latitude, client.longitude])
+            .addTo(map)
+            .bindPopup(`<strong>${client.nom}</strong><br/>Consultations : ${client.consultations || 0}`);
+        }
+        totalConsultations += client.consultations || 0;
+      });
+
+      document.getElementById('totalConsultations').textContent = 
+        `Nombre total de consultations : ${totalConsultations}`;
+    })
+    .catch(err => {
+      console.error('Erreur chargement clients :', err);
+      document.getElementById('totalConsultations').textContent = "Erreur de chargement des consultations";
+    });
+});
+</script>
+
+</body>
+</html>

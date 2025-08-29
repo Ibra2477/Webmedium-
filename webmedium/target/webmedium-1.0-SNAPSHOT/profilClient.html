@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Profil - Predict'If</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+
+             header {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.left  {
+    flex: 1;
+    display: flex;
+    align-items: center;
+ padding-left: 10px;
+  
+}
+.center{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: center;
+   
+}
+.right{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: right;
+ padding-right: 10px;
+    
+}
+
+.center h1 {
+ 
+    margin: 0;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+        /* Conteneur principal sous header */
+        #content {
+            display: flex;
+            height: calc(100vh - 90px); /* hauteur viewport moins header */
+        }
+
+        /* Colonne gauche */
+        #left-column {
+            flex: 1; /* prend la moitié */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* centre verticalement */
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+           
+        }
+
+        /* Cartes dans la colonne gauche */
+        .card {
+           
+            border: 1px solid #ccc;
+            width: 300px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .info-label {
+            font-weight: bold;
+        }
+
+        /* Colonne droite */
+        #right-column {
+            flex: 1; /* prend la moitié */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ddd;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #right-column img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+  <div class="left">
+    <img id="home-btn" class="nav-icon" src="https://cdn-icons-png.flaticon.com/512/7606/7606153.png" alt="Accueil" title="Accueil">
+  </div>
+
+  <div class="center">
+    <h1>Mon Profil</h1>
+  </div>
+
+  <div class="right">
+    <img id="profile-btn" class="nav-icon" src="https://t4.ftcdn.net/jpg/05/42/30/11/360_F_542301196_Ay2Ek343ezG91dozm1Jm42rtzDLsoedU.jpg" alt="Profil" title="Mon Profil">
+  </div>
+</header>
+<h2 style="text-align: center;">Bienvenue, <span id="client-nom"></span> !</h2>
+<div id="content">
+    <div id="left-column">
+        <section class="card" id="client-details">
+            <h3>Mes Informations</h3>
+            <p><span class="info-label">Nom :</span> <span id="nom"></span></p>
+            <p><span class="info-label">Prénom :</span> <span id="prenom"></span></p>
+            <p><span class="info-label">Email :</span> <span id="email"></span></p>
+            <p><span class="info-label">Date de naissance :</span> <span id="naissance"></span></p>
+            <p><span class="info-label">Adresse :</span> <span id="adresse"></span></p>
+        </section>
+
+        <section class="card" id="profil-astral">
+            <h3>Mon profil astral</h3>
+            <p><span class="info-label">Signe Zodiac :</span> <span id="zodiac"></span></p>
+            <p><span class="info-label">Signe chinois :</span> <span id="chinois"></span></p>
+            <p><span class="info-label">Couleur :</span> <span id="couleur"></span></p>
+            <p><span class="info-label">Animal totem :</span> <span id="animal"></span></p>
+             <p><a href="Historique_consultation.html" target="_blank" style="color: black;  text-decoration: underline;">Voir mon historique</a></p>
+
+        </section>
+    </div>
+
+    <div id="right-column">
+        <img src="https://media.istockphoto.com/id/1222357475/fr/vectoriel/ic%C3%B4ne-de-pr%C3%A9visualisation-dimage-place-dimage-pour-le-site-web-ou-la-conception-dui-ux.jpg?s=612x612&w=0&k=20&c=BBIsJc60xEMdIHhC3p8dsO8rbWAPg29fP95_vktRsPc=" alt="Photo Profil" />
+    </div>
+</div>
+
+<script>
+    document.getElementById('home-btn').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+
+    document.getElementById('profile-btn').addEventListener('click', () => {
+        window.location.href = 'profilClient.html';
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        fetch('ActionServlet?todo=infosClient')
+            .then(res => res.json())
+            .then(json => {
+                if (json.success && json.client) {
+                    const client = json.client;
+                    document.getElementById('client-nom').textContent = client.prenom;
+                    document.getElementById('nom').textContent = client.nom;
+                    document.getElementById('prenom').textContent = client.prenom;
+                    document.getElementById('email').textContent = client.mail;
+                    document.getElementById('naissance').textContent = client.date || 'Non renseignée';
+                    document.getElementById('adresse').textContent = client.adresse || 'Non renseignée';
+                    document.getElementById('zodiac').textContent = client.zodiac || 'Non renseignée';
+                    document.getElementById('chinois').textContent = client.chinois || 'Non renseignée';
+                    document.getElementById('couleur').textContent = client.couleur || 'Non renseignée';
+                    document.getElementById('animal').textContent = client.animal || 'Non renseignée';
+                } else {
+                    alert("Veuillez vous connecter pour voir votre profil.");
+                    window.location.href = "connexion.html";
+                }
+            })
+            .catch(err => {
+                console.error("Erreur lors du chargement du profil :", err);
+                window.location.href = "connexion.html";
+            });
+    });
+</script>
+
+</body>
+</html>

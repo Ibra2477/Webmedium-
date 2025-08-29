@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Predict'If</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+       header {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.left  {
+    flex: 1;
+    display: flex;
+    align-items: center;
+ padding-left: 10px;
+  
+}
+.center{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: center;
+   
+}
+.right{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: right;
+ padding-right: 10px;
+    
+}
+
+.center h1 {
+ 
+    margin: 0;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}#medium-detail {
+    display: none;
+}
+
+        .section, footer { padding: 20px; text-align: center; }
+        .card-container { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+        .card { border: 1px solid #ccc; padding: 15px; width: 250px; background-color: #f9f9f9; }
+        .card img { width: 100%; height: 150px; background-color: #ddd; }
+        .mediums-list { list-style: none; padding: 0; }
+        .mediums-list li { margin: 5px 0; }
+       
+        
+        .detail-box {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 600px;
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    line-height: 1.6;
+    display: none; /* caché par défaut */
+}
+
+.detail-box h4 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #333;
+}
+
+.detail-box p {
+    margin: 10px 0;
+}
+
+.detail-box button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detail-box button:hover {
+    background-color: #0056b3;
+}
+
+        
+        ul li a {
+    text-decoration: underline;
+    color: inherit; /* pour garder la couleur du texte comme celle par défaut */
+}
+
+ul li a:hover {
+    text-decoration: underline; /* optionnel : soulignement au survol */
+    color: #007BFF; /* couleur bleue au survol par exemple */
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+  <div class="left">
+    <img id="home-btn" class="nav-icon" src="https://cdn-icons-png.flaticon.com/512/7606/7606153.png" alt="Accueil" title="Accueil">
+  </div>
+
+  <div class="center">
+    <h1>Accueil</h1>
+  </div>
+
+  <div class="right">
+    <img id="profile-btn" class="nav-icon" src="https://t4.ftcdn.net/jpg/05/42/30/11/360_F_542301196_Ay2Ek343ezG91dozm1Jm42rtzDLsoedU.jpg" alt="Profil" title="Mon Profil">
+  </div>
+</header>
+
+<h2 style="text-align: center;">Bienvenue chez <strong>Predict'If</strong></h2>
+
+ 
+<section class="card-container">
+    <div class="card">
+        <img src="https://medias.inrees.com/img/magazine/haut_entitescontact.jpg" alt="Image Spirites">
+        <h3>Spirites</h3>
+        <p>En communication avec l’au-delà, ils transmettent des messages des esprits...</p>
+        <strong>Nos médiums :</strong>
+        <ul id="listSpirites">
+           
+        </ul>
+    </div>
+    <div class="card">
+        <img src="https://www.kang.fr/assets/image/287/seo-template/15.jpg" alt="Image Cartomanciens">
+        <h3>Cartomanciens</h3>
+        <p>Grâce aux cartes (Tarot, Oracle...), ils dévoilent les chemins de votre avenir...</p>
+        <strong>Nos médiums :</strong>
+        <ul id="CartoList">
+           
+        </ul>
+    </div>
+    <div class="card">
+        <img src="https://media.hachette.fr/fit-in/1128x1128/28/2024-05/theme_astralv2.jpg" alt="Image Astrologues">
+        <h3>Astrologues</h3>
+        <p>Ils décryptent l’influence des astres sur votre vie, analysant votre thème astral...</p>
+        <strong>Nos médiums :</strong>
+        <ul id="AstroList">
+        </ul>
+    </div>
+</section>
+
+<section class="detail-box" id="medium-detail">
+    <!-- Détails du médium chargés dynamiquement -->
+</section>
+
+<script>
+      // Home button navigates to accueil
+    document.getElementById('home-btn').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+
+    // Profile button: check if client is connected, then redirect
+    document.getElementById('profile-btn').addEventListener('click', () => {
+        fetch('ActionServlet?todo=infosClient')
+            .then(res => res.json())
+            .then(json => {
+                if (json.success) {
+                    window.location.href = 'profilClient.html';
+                } else {
+                    window.location.href = 'connexion.html';
+                }
+            })
+            .catch(() => window.location.href = 'connexion.html');
+    });
+    let allMediums = [];
+   function showMediumDetails(id) {
+    const medium = allMediums.find(m => m.Id === id);
+    if (!medium) {
+        document.getElementById('medium-detail').textContent = "Médium introuvable.";
+        return;
+    }
+
+    const detailBox = document.getElementById('medium-detail');
+    detailBox.style.display = 'block';
+    detailBox.innerHTML = `
+        <h4>${medium.Denomination}</h4>
+        <p><strong>Type :</strong> ${medium.Type}</p>
+        <p><strong>Description :</strong> ${medium.Presentation || "Pas de description."}</p>
+        <button onclick="contactMedium('${medium.Id}')">Contacter</button>
+    `;
+}
+
+function contactMedium(mediumId) {
+    // Vérifier si le client est connecté
+    fetch("ActionServlet?todo=infosClient")
+        .then(response => response.json())
+        .then(json => {
+            if (!json.success) {
+                // Pas connecté → redirection
+                window.location.href = "connexion.html";
+            } else {
+                // Connecté → afficher les infos client dans une popup
+                
+                fetch(`ActionServlet?todo=demandeConsultation&mediumId=${mediumId}`, {
+                    method: 'POST'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.consultation) {
+                        alert("Demande enregistrée !\n " + data.nomMedium +" va vous appeler dans quelques minutes."
+                        );
+                    } else {
+                        alert(" Échec de l'enregistrement de la consultation.");
+                    }
+                })
+                .catch(err => {
+                    console.error("Erreur lors de la demande :", err);
+                    alert("⚠️ Une erreur est survenue.");
+                });
+                // Ensuite : envoyer la demande de consultation
+              
+            }
+        })
+        .catch(error => {
+            console.error("Erreur réseau :", error);
+            window.location.href = "connexion.html";
+        });
+}
+
+
+   
+    window.addEventListener('DOMContentLoaded', () => {
+                    fetch('ActionServlet?todo=accueil')
+                    .then(response => response.json())
+                    .then(data => {
+                    const listSpirites = document.getElementById('listSpirites');
+                     allMediums= data.container.mediums;
+                    
+                    const CartoList = document.getElementById('CartoList');
+                   
+                    const AstroList = document.getElementById('AstroList');
+                    
+                    
+                    allMediums.forEach(medium => {
+                    const li = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = medium.Denomination;
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault(); // pour ne pas remonter en haut
+                        showMediumDetails(medium.Id); // passe l'ID
+                    });
+
+                    li.appendChild(link);
+
+                    if (medium.Type === 'Spirite') {
+                        listSpirites.appendChild(li);
+                    } else if (medium.Type === 'Cartomancien') {
+                        CartoList.appendChild(li);
+                    } else if (medium.Type === 'Astrologue') {
+                        AstroList.appendChild(li);
+                    }
+                 });
+        }) 
+        .catch(error => {
+            console.error('Erreur lors de la récupération des médiums :', error);
+        });
+});
+</script>
+  
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Historique des consultations</title>
+    <style>
+             body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+
+             header {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.left  {
+    flex: 1;
+    display: flex;
+    align-items: center;
+ padding-left: 10px;
+  
+}
+.center{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: center;
+   
+}
+.right{
+     flex: 1;
+    display: flex;
+    align-items: center;
+ justify-content: right;
+ padding-right: 10px;
+    
+}
+
+.center h1 {
+ 
+    margin: 0;
+}
+
+.nav-icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+        section { padding: 20px; }
+        ul.consult-list { list-style: none; padding: 0; }
+        ul.consult-list li {
+            margin-bottom: 1.5em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #eee;
+        }
+        .consult-item label { font-weight: bold; }
+        .consult-item input[type="date"],
+        .consult-item input[type="time"] {
+            border: 1px solid #ccc;
+            padding: 2px 6px;
+            font-size: 0.9em;
+            margin: 0 4px;
+            vertical-align: middle;
+        }
+        .medium-label { display: block; margin-top: 4px; }
+    </style>
+</head>
+<body>
+<header>
+  <div class="left">
+    <img id="home-btn" class="nav-icon" src="https://cdn-icons-png.flaticon.com/512/7606/7606153.png" alt="Accueil" title="Accueil">
+  </div>
+
+  <div class="center">
+    <h1>Historique des consultations</h1>
+  </div>
+
+  <div class="right">
+    <img id="profile-btn" class="nav-icon" src="https://t4.ftcdn.net/jpg/05/42/30/11/360_F_542301196_Ay2Ek343ezG91dozm1Jm42rtzDLsoedU.jpg" alt="Profil" title="Mon Profil">
+  </div>
+</header>
+
+
+<section>
+    <ul class="consult-list" id="consult-list">
+        <!-- Sera rempli dynamiquement -->
+    </ul>
+</section>
+
+<script>
+    // Bouton home
+    document.getElementById('home-btn').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+     document.getElementById('profile-btn').addEventListener('click', () => {
+        window.location.href = 'profilClient.html';
+    });
+
+    // On récupère l'historique
+    fetch('ActionServlet?todo=HistoriqueConsult')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('consult-list');
+       let consultations=data.consultations;
+
+        if (consultations.length === 0) {
+          list.innerHTML = '<li>Aucune consultation à afficher.</li>';
+          return;
+        }
+
+        consultations.forEach(c => {
+            console.log(c);
+          // Date ISO -> objet Date
+          const dt = new Date(c.Date_consult);
+          // format FR
+          const yyyy = dt.toISOString().slice(0,10);
+          const hhmm = dt.toTimeString().slice(0,5);
+
+          // récupère le medium (objet complet)
+          const med = c.Medium_consult;
+        
+          const li = document.createElement('li');
+          li.className = 'consult-item';
+          li.innerHTML = `
+            <label>Consultation du</label>
+            <input type="date"  value="${yyyy}" readonly>
+            <label>à</label>
+            <input type="time"  value="${hhmm}" readonly>
+            <span class="medium-label">Médium : ${med}</span>
+          `;
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        console.error('Erreur chargement historique :', err);
+        document.getElementById('consult-list')
+          .innerHTML = '<li>Impossible de charger l’historique.</li>';
+      });
+</script>
+
+</body>
+</html>

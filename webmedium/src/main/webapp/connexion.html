@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion - Predict'If</title>
+  <style>
+    /* Reset & font */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #fff; color: #333; }
+
+    /* En-tête identique aux autres pages */
+    header {
+      position: relative;
+      width: 100%;
+      padding: 10px 0;
+      background: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    .nav-icon {
+      position: absolute;
+      top: 10px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+    #home-btn { left: 10px; }
+
+    header h1 {
+      font-size: 1.5em;
+      font-weight: normal;
+    }
+
+    /* Sous-titre */
+    .subtitle {
+      margin: 20px auto 0;
+      max-width: 500px;
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+
+    /* Card formulaire */
+    .form-card {
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 30px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .form-card input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+    .form-card button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 2px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .form-card button:hover {
+      background: #333;
+    }
+    .form-card .signup-link {
+      display: block;
+      margin-top: 16px;
+      font-size: 0.9em;
+      color: #333;
+    }
+    .form-card .signup-link a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    /* Résultat d'erreur */
+    #resultat {
+      margin-top: 12px;
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img id="home-btn" class="nav-icon"
+         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALYAAACUCAMAAAAJSiMLAAAAYFBMVEX///8AAADQ0NBtbW34+PhnZ2c6OjrZ2dlqampFRUX19fWSkpL8/Pzs7OyWlpZzc3PCwsKioqJbW1uGhoaMjIwpKSmAgIDk5OROTk4VFRU0NDQICAiwsLAvLy8eHh5hYWH1BjL1AAAClUlEQVR4nO3cbW+yMBiGYYtzYC0vFbTqEP//v3y6Z1siQoEid1uS6/g8kzOL3rQV3GwAAAAAAAAAAAAA5hBcnrNI+M6wxCv27biucJWwH7d6Rd3xkf1p5Fq6RXFhTw7cd9Akot6zlnwN3ULe2Yud8h017nx9rWbsEvmuGnPsRn8PlMJ31yDeeYP8+pK+0wbEpmotC/WDKYqbuZqxMvUd2IvXg9V6EMa+E3vw7DRczdgjvIGSlj2D79U+tIGSJuPR2r32Hdqi9uPJ/zWZ79QnasIb5E8ZzIqwmB6t5WEMQiGtqvVACWEQ8urLMpvt/Q9CdbaN1u6+B2G8nVHtfWUV9a9TJ/C5siqmjuseZ28DpR5Yp45LPA2Ug/UIafOzVcvfi2ZeBko6+8P4zPWZVbxINWPS5UAR0WW8aJrK3UAR7wy+V7mrsx8hRzaNdo5uBoqomiWr9SB0MVDEvFXIkBv9Vo0v9mF80lCvrNQnQbVWkQ7CYvQsZC7CgSJqsmo9UKhWVh9y4RHSRrRVEzVptR4oJBdMtdAyxKykyI6oq9mVItvuEGcWimz6//ZKs08U2bykzqZZUsUUy5EnW5Jq3Z3fLE6E7TT76oMoe8MLmVWLj+9TfsgySX1qosa/W7JyLBxtg+s3z3Va7s4OpxadKQ6PeBa8YJ4cHpREb51ZtjzI5kdP9nJbsy2ykY1sZHddDl1n83IgkOwq5T3M5+FhZJt2scbrahjZO8MrYtMrwshOTNmm7x+QjWxkIxvZyEY2spGNbGQjG9nIRjayf7ONty9aZ+cOs5XxmSbrbKc35xqfWbHNvjp9TNj4CJlttuM7oVPDTed22Vf3vzkQlcmu42G6fVJVj84f5zKMx7QAAAAAAAAAAACm+Ac7eizyPe8KjQAAAABJRU5ErkJggg==" 
+         alt="Accueil" title="Accueil"
+         onclick="location.href='index.html'">
+    <h1>Connexion</h1>
+  </header>
+
+  <p class="subtitle">
+    Les astres vous attendaient… Connectez-vous pour découvrir ce que l’avenir vous réserve.
+  </p>
+
+  <div class="form-card">
+    <form id="form-connexion">
+      <input type="email" id="mail" name="mail" placeholder="Email" required>
+      <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+      <button type="submit">Se connecter</button>
+    </form>
+    <p class="signup-link">
+      Pas de compte ? <a href="inscription.html">Inscrivez-vous !</a>
+    </p>
+    <div id="resultat"></div>
+  </div>
+
+        <script>
+        document.getElementById("form-connexion").addEventListener("submit", function(e) {
+            e.preventDefault(); // Empêche le rechargement de la page
+
+            const form = e.target;
+            const params = new URLSearchParams();
+            params.append("todo", "connexion");
+
+            for (const element of form.elements) {
+                if (element.name) {
+                    params.append(element.name, element.value);
+                }
+            }
+
+fetch("ActionServlet?" + params.toString())
+    .then(response => response.json())
+    .then(json => {
+        if (json.success) {
+            console.log("Connecté en tant que : " + json.prenom + " " + json.nom);
+     if (json.type === "client") {
+       
+            
+                window.location.href = "index.html";
+            } else if (json.type === "employe") {
+                window.location.href = "accueilEmploye.html";
+            } else {
+                alert("Échec de la connexion : identifiants invalides.");
+            }
+            
+        } else {
+            document.getElementById("resultat").textContent = "Échec de la connexion.";
+        }
+    })
+    .catch(error => {
+        console.error("Erreur réseau :", error);
+    });
+    });
+
+            
+    </script>
+    <script>
+    window.addEventListener("pageshow", function (event) {
+        // Vérifie si c'est un retour depuis le cache (back/forward)
+        if (event.persisted || window.performance.getEntriesByType("navigation")[0].type === "back_forward") {
+            fetch("ActionServlet?todo=deconnexion", { method: "GET" })
+                .then(() => {
+                    console.log("✅ Session supprimée (retour arrière détecté)");
+                })
+                .catch(err => {
+                    console.error("❌ Erreur lors de la suppression de session :", err);
+                });
+        }
+    });
+
+    // Sinon, on peut aussi forcer la déconnexion à chaque ouverture de la page :
+    fetch("ActionServlet?todo=deconnexion", { method: "GET" })
+        .then(() => {
+            console.log("🔒 Déconnexion automatique à l’ouverture de la page.");
+        })
+        .catch(err => {
+            console.error("❌ Erreur de déconnexion :", err);
+        });
+</script>
+
+
+    </body>
+</html>
